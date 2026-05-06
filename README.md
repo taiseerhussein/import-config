@@ -102,7 +102,6 @@ flowchart LR
   * `ansible.controller`
 * AAP credentials with sufficient permissions
 
-> ⚠️ No manual installation of collections or CLI execution is required.
 
 ---
 
