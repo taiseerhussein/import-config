@@ -3,7 +3,7 @@
 ![Ansible](https://img.shields.io/badge/Ansible-Automation-red)
 ![AAP](https://img.shields.io/badge/RedHat-AAP%202.6-black)
 ![GitOps](https://img.shields.io/badge/Model-GitOps-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+
 
 > Manage **Red Hat Ansible Automation Platform (AAP)** configuration as code using a GitOps approach — executed directly from **AAP 2.6 Job Templates**.
 
