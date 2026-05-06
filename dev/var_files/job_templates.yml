@@ -1,0 +1,24 @@
+---
+controller_templates:
+  - name: tf-aws
+    credentials:
+      - aap
+    job_type: run
+    inventory: Demo Inventory
+    project: ansible-terraform
+    playbook: terraform_aws_create.yml
+    ask_variables_on_launch: true
+    organization: Dev
+    execution_environment: Default execution environment
+    state: present
+    
+  - name: Publish Content View
+    credentials:
+      - local-m
+    job_type: run
+    inventory: Demo Inventory
+    project: automated-satellite
+    playbook: satellite_publish.yml
+    organization: Dev
+    execution_environment: Default execution environment
+    state: present

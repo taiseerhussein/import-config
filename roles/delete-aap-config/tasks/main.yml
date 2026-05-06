@@ -1,0 +1,36 @@
+---
+# tasks file for delete-aap-config
+- name: Delete Job Templates
+  ansible.controller.job_template:
+    name: "{{ item.name }}"
+    validate_certs: "{{ gateway_validate_certs }}"
+    state: absent
+  loop: "{{ controller_templates }}"
+
+- name: Delete Projects
+  ansible.controller.project:
+    name: "{{ item.name }}"
+    validate_certs: "{{ gateway_validate_certs }}"
+    state: absent
+  loop: "{{ controller_projects }}"
+
+- name: Delete Teams
+  ansible.platform.team:
+    name: "{{ item.name }}"
+    organization: "{{ item.organization }}"
+    gateway_hostname: "{{ gateway_hostname }}"
+    gateway_username: "{{ gateway_username }}"
+    gateway_password: "{{ gateway_password }}"
+    gateway_validate_certs: "{{ gateway_validate_certs }}"
+    state: absent
+  loop: "{{ controller_teams }}"
+
+- name: Delete organizations
+  ansible.platform.organization:
+    name: "{{ item.name }}"
+    gateway_hostname: "{{ gateway_hostname }}"
+    gateway_username: "{{ gateway_username }}"
+    gateway_password: "{{ gateway_password }}"
+    gateway_validate_certs: "{{ gateway_validate_certs }}"
+    state: absent
+  loop: "{{ controller_organizations }}"

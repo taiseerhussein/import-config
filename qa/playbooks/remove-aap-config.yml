@@ -1,0 +1,14 @@
+---
+- name: Playbook for testing
+  hosts: localhost
+  gather_facts: false
+  vars:
+    gateway_validate_certs: false
+  vars_files:
+    - ../var_files/delete-config/orgs.yml
+    - ../var_files/delete-config/teams.yml
+    - ../var_files/delete-config/projects.yml
+    - ../var_files/delete-config/job_templates.yml
+    - ../var_files/common/platform-info.yml
+  roles:
+    - ../../roles/delete-aap-config

@@ -1,0 +1,24 @@
+---
+controller_teams:
+  - name: DevOps
+    description: Development Operations Team
+    organization: Dev
+  - name: NetOps
+    description: Network Operations Team
+    organization: Dev
+  - name: SysOps
+    description: Platform Operations Team
+    organization: Dev
+  - name: OpServ
+    description: Operational Services Team
+    organization: Dev
+  - name: Release
+    description: Release Team
+    organization: Dev
+  - name: Integrations
+    description: Services Integration Team
+    organization: Dev
+  - name: test
+    description: Services test Team
+    organization: Dev
+...

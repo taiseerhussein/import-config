@@ -1,0 +1,52 @@
+---
+- name: Create organizations
+  ansible.platform.organization:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    gateway_hostname: "{{ gateway_hostname }}"
+    gateway_username: "{{ gateway_username }}"
+    gateway_password: "{{ gateway_password }}"
+    gateway_validate_certs: "{{ gateway_validate_certs }}"
+    state: "{{ item.state }}"
+  loop: "{{ controller_organizations }}"
+
+- name: Create Teams
+  ansible.platform.team:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    organization: "{{ item.organization }}"
+    gateway_hostname: "{{ gateway_hostname }}"
+    gateway_username: "{{ gateway_username }}"
+    gateway_password: "{{ gateway_password }}"
+    gateway_validate_certs: "{{ gateway_validate_certs }}"
+    state: "{{ item.state }}"
+  loop: "{{ controller_teams }}"
+
+- name: Create Projects
+  ansible.controller.project:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    organization: "{{ item.organization }}"
+    scm_branch: "{{ item.scm_branch }}"
+    scm_clean: "{{ item.scm_clean }}"
+    scm_delete_on_update: "{{ item.scm_delete_on_update }}"
+    scm_type: "{{ item.scm_type }}"
+    scm_update_on_launch: "{{ item.scm_update_on_launch }}"
+    scm_url: "{{ item.scm_url }}"
+    validate_certs: "{{ gateway_validate_certs }}"
+    state: "{{ item.state }}"
+  loop: "{{ controller_projects }}"
+
+- name: Creating Job Templates
+  ansible.controller.job_template:
+    name: "{{ item.name }}"
+    organization: "{{ item.organization }}"
+    job_type: "{{ item.job_type }}"
+    inventory: "{{ item.inventory }}"
+    project: "{{ item.project }}"
+    execution_environment: "{{ item.execution_environment }}"
+    playbook: "{{ item.playbook }}"
+    credentials: "{{ item.credentials }}"
+    validate_certs: "{{ gateway_validate_certs }}"
+    state: "{{ item.state }}"
+  loop: "{{ controller_templates }}"

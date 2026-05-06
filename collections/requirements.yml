@@ -1,0 +1,4 @@
+collections:
+  - name: community.general
+  - name: awx.awx
+  - name: dynatrace.event_driven_ansible
