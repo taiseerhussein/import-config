@@ -9,6 +9,7 @@ controller_projects:
     scm_type: git
     scm_update_on_launch: 'no'
     scm_url: https://github.com/taiseerhussein/Ansible-Terraform.git
+    state: present
 
   - name: automated-satellite
     organization: Dev
@@ -19,4 +20,5 @@ controller_projects:
     scm_type: git
     scm_update_on_launch: 'no'
     scm_url: https://github.com/taiseerhussein/automated-satellite.git
+    state: present
 ...

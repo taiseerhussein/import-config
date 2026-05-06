@@ -10,6 +10,7 @@ controller_templates:
     ask_variables_on_launch: true
     organization: Dev
     execution_environment: Default execution environment
+    state: present
     
   - name: Publish Content View
     credentials:
@@ -20,12 +21,4 @@ controller_templates:
     playbook: satellite_publish.yml
     organization: Dev
     execution_environment: Default execution environment
-
-  # - name: Dynamic Inventory
-  #   credentials:
-  #     - Workshop Credential
-  #   job_type: run
-  #   inventory: Workshop Inventory
-  #   project: Ansible Plays for Dev
-  #   playbook: dynamicInventory.yml
-...
+    state: present

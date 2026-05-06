@@ -1,4 +1,0 @@
----
-controller_projects:
-  - name: ansible-terraform
-  - name: automated-satellite
