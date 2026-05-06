@@ -33,18 +33,18 @@ Across environments:
 
 ```mermaid
 flowchart LR
-    A[Git Repository] --> B[Env Config (dev/qa/prod)]
+    A[Git Repository] --> B[Env Config dev qa prod]
     B --> C[Ansible Playbook]
-    C --> D[manage-aap-config Role]
+    C --> D[manage aap config role]
 
-    D --> E[ansible.platform]
-    D --> F[ansible.controller]
+    D --> E[ansible platform]
+    D --> F[ansible controller]
 
     E --> G[AAP Gateway]
     F --> H[Automation Controller]
 
-    G --> I[Organizations / Teams]
-    H --> J[Projects / Job Templates / Credentials]
+    G --> I[Organizations and Teams]
+    H --> J[Projects Job Templates Credentials]
 ```
 
 ---
