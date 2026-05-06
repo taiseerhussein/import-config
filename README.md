@@ -281,7 +281,6 @@ ansible-vault create group_vars/all/vault.yml
 * Environment standardization
 * AAP 2.4 → 2.6 migration
 * Disaster recovery
-* CI/CD-driven automation
 
 ---
 
@@ -312,16 +311,6 @@ jobs:
 *.log
 __pycache__/
 ```
-
----
-
-## 📸 Screenshots
-
-*Add screenshots from your AAP UI here:*
-
-* Organizations
-* Teams
-* Job Templates
 
 ---
 
