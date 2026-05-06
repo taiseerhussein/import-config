@@ -5,7 +5,7 @@
 ![GitOps](https://img.shields.io/badge/Model-GitOps-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-> Manage **Red Hat Ansible Automation Platform (AAP)** configuration as code using a GitOps approach.
+> Manage **Red Hat Ansible Automation Platform (AAP)** configuration as code using a GitOps approach — executed directly from **AAP 2.6 Job Templates**.
 
 ---
 
@@ -13,7 +13,9 @@
 
 This repository provides a **GitOps-based framework** for managing AAP configuration declaratively using Ansible.
 
-It enables you to create, update, and delete:
+It enables platform teams to **define, version, and deploy AAP configuration through AAP 2.6 job templates**.
+
+Supported resources:
 
 * Organizations
 * Teams
@@ -34,17 +36,20 @@ Across environments:
 ```mermaid
 flowchart LR
     A[Git Repository] --> B[Env Config dev qa prod]
-    B --> C[Ansible Playbook]
-    C --> D[manage aap config role]
+    B --> C[AAP Project Sync]
+    C --> D[AAP Job Template]
+    D --> E[Execution Environment]
 
-    D --> E[ansible platform]
-    D --> F[ansible controller]
+    E --> F[manage aap config role]
 
-    E --> G[AAP Gateway]
-    F --> H[Automation Controller]
+    F --> G[ansible platform]
+    F --> H[ansible controller]
 
-    G --> I[Organizations and Teams]
-    H --> J[Projects Job Templates Credentials]
+    G --> I[AAP Gateway]
+    H --> J[Automation Controller]
+
+    I --> K[Organizations and Teams]
+    J --> L[Projects Job Templates Credentials]
 ```
 
 ---
@@ -74,11 +79,13 @@ flowchart LR
 
 ## ⚙️ How It Works
 
-1. Define configuration in environment-specific YAML files
-2. Run the playbook
-3. Ansible roles apply the configuration to AAP
+1. Configuration is stored in Git (this repository)
+2. AAP project sync pulls the latest configuration
+3. A Job Template executes the playbook
+4. Execution Environment runs the roles
+5. AAP resources are created/updated
 
-### Collections Used
+### Collections Used (inside Execution Environment)
 
 * `ansible.platform` → Organizations, Teams
 * `ansible.controller` → Projects, Job Templates, Credentials
@@ -87,15 +94,15 @@ flowchart LR
 
 ## 📦 Prerequisites
 
-* Ansible (latest recommended)
-* Access to AAP 2.6
-* Admin credentials
+* Access to **AAP 2.6**
+* AAP Project connected to this repository
+* Execution Environment with:
 
-Install required collections:
+  * `ansible.platform`
+  * `ansible.controller`
+* AAP credentials with sufficient permissions
 
-```bash
-ansible-galaxy collection install ansible.platform ansible.controller
-```
+> ⚠️ No manual installation of collections or CLI execution is required.
 
 ---
 
@@ -189,20 +196,28 @@ job_templates:
 
 ---
 
-## ▶️ Usage
+## ▶️ Usage (AAP 2.6)
 
-### Run Dev
+### Setup in AAP
 
-```bash
-ansible-playbook dev/playbooks/manage-aap-config.yml
+1. Create a **Project** pointing to this repository:
+
+```
+https://github.com/taiseerhussein/import-config
 ```
 
-### Run QA / Prod
+2. Create a **Job Template**:
 
-```bash
-ansible-playbook qa/playbooks/manage-aap-config.yml
-ansible-playbook prod/playbooks/manage-aap-config.yml
-```
+* Project: this repo
+* Playbook:
+
+  * `dev/playbooks/manage-aap-config.yml`
+  * `qa/playbooks/manage-aap-config.yml`
+  * `prod/playbooks/manage-aap-config.yml`
+* Execution Environment: includes required collections
+* Credentials: AAP admin or automation user
+
+3. Launch the Job Template from AAP UI.
 
 ---
 
@@ -234,44 +249,38 @@ Deletion order:
 ```mermaid
 sequenceDiagram
     participant User
-    participant Git
-    participant Ansible
     participant AAP
+    participant Git
+    participant EE as Execution Environment
 
-    User->>Git: Update YAML config
-    Git->>Ansible: Pull changes
-    Ansible->>AAP: Apply configuration
-    AAP-->>User: Updated resources
+    User->>AAP: Launch Job Template
+    AAP->>Git: Sync Project
+    AAP->>EE: Run playbook
+    EE->>AAP: Apply configuration
+    AAP-->>User: Resources updated
 ```
 
 ---
 
-## ⚡ Quick Start
+## ⚡ Quick Start (AAP)
 
-```bash
-git clone https://github.com/taiseerhussein/import-config
-cd import-config
-
-ansible-galaxy collection install ansible.platform ansible.controller
-
-ansible-playbook dev/playbooks/manage-aap-config.yml
-```
+1. Import repository as a Project
+2. Create Job Template
+3. Select environment playbook
+4. Attach credentials
+5. Launch
 
 ---
 
 ## 🔐 Security Best Practices
 
-* Use **Ansible Vault** for secrets:
-
-```bash
-ansible-vault create group_vars/all/vault.yml
-```
-
-* Never commit:
+* Use **Ansible Vault** for secrets
+* Do not store:
 
   * Passwords
   * Tokens
   * Private keys
+* Use environment separation (`dev`, `qa`, `prod`)
 
 ---
 
@@ -284,41 +293,11 @@ ansible-vault create group_vars/all/vault.yml
 
 ---
 
-## 📊 CI Example (GitHub Actions)
-
-```yaml
-name: Ansible Lint
-
-on: [push, pull_request]
-
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: pip install ansible ansible-lint
-      - run: ansible-lint
-```
-
----
-
-## 🧹 .gitignore
-
-```bash
-.DS_Store
-.env
-*.retry
-*.log
-__pycache__/
-```
-
----
-
 ## 💡 Business Value
 
 * Consistent environments
 * Faster onboarding
-* Reduced human error
+* Reduced manual errors
 * Full audit trail via Git
 * Scalable automation
 
@@ -330,3 +309,4 @@ __pycache__/
 https://github.com/taiseerhussein
 
 ---
+
