@@ -129,6 +129,7 @@ Each environment contains:
 ## 🧪 Example Configuration
 
 ### platform-info.yml
+This file has been encrypted using Ansible Vault because it contains sensitive platform information.
 
 ```yaml
 aap_hostname: "https://aap.example.com"
